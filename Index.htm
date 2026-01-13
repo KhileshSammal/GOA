@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lens and Latitude | Jagannath Puri to Sea Expedition</title>
+    
+    <!-- 1. EXTERNAL RESOURCES -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* 2. CUSTOM CSS STYLES & OPTIMIZATIONS */
+        :root {
+            --accent: #fbbf24;
+            --bg-deep: #0a0c10;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            letter-spacing: -0.01em; 
+            background-color: var(--bg-deep);
+            color: #e2e8f0;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+        /* Optimized Glassmorphism */
+        .glass-panel {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            transition: border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(251, 191, 36, 0.2);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Aesthetic Inbox Cards */
+        .inbox-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .inbox-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .instagram-gradient {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+
+        .grain {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0.04; pointer-events: none; z-index: 50;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(251, 191, 36, 0.2); border-radius: 10px; }
+        
+        .day-button.active {
+            background: linear-gradient(90deg, var(--accent) 0%, #f59e0b 100%);
+            border-color: var(--accent);
+            color: #000;
+            transform: translateX(8px);
+            box-shadow: 0 15px 30px -5px rgba(251, 191, 36, 0.25);
+        }
+
+        .nav-link {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: rgba(255,255,255,0.4);
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0;
+            width: 0; height: 1.5px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .nav-link:hover { color: #fff; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .reveal { animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    </style>
+</head>
+<body class="selection:bg-amber-300 selection:text-black">
+    <div class="grain"></div>
+
+    <!-- 3. NAVIGATION HEADER -->
+    <header class="fixed top-0 left-0 right-0 z-[100] px-4 md:px-8 py-6">
+        <nav class="max-w-7xl mx-auto flex items-center justify-between bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl px-6 py-4">
+            <div class="flex items-center gap-4">
+                <div class="bg-amber-400 text-black font-black text-xs h-9 w-9 flex items-center justify-center rounded-xl shadow-[0_0_20px_rgba(251,191,36,0.3)]">KS</div>
+                <div>
+                    <h2 class="text-white font-bold text-[11px] tracking-[0.25em] uppercase leading-none">Lens & Latitude</h2>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-10">
+                <a href="https://website-sage-alpha-83.vercel.app/" class="nav-link">Home</a>
+                <a href="#" class="nav-link text-white">Hero</a>
+                <a href="#itinerary" class="nav-link">Itinerary</a>
+                <a href="#directory" class="nav-link">Stay & Food</a>
+                <a href="#ledger" class="nav-link">Ledger</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+
+            <div class="flex items-center gap-5">
+                <a href="https://www.instagram.com/mr.khilesh__/" target="_blank" class="text-white/40 hover:text-amber-400 transition-all hover:scale-110">
+                    <i data-lucide="instagram" size="20"></i>
+                </a>
+                <a href="https://www.youtube.com/c/KhileshSammalVlogs2125" target="_blank" class="text-white/40 hover:text-red-500 transition-all hover:scale-110">
+                    <i data-lucide="youtube" size="20"></i>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 4. HERO SECTION -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0 scale-105">
+            <div class="absolute inset-0 opacity-25 bg-[url('https://images.unsplash.com/photo-1512100356956-c1b47f4b8a21?auto=format&fit=crop&q=80&w=2000')] bg-cover bg-center"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#0a0c10]/70 to-[#0a0c10]"></div>
+        </div>
+        
+        <div class="relative z-10 text-center px-6 max-w-5xl reveal">
+            <div class="inline-flex items-center gap-4 mb-8 bg-white/5 backdrop-blur-md border border-white/10 px-5 py-2 rounded-full">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                </span>
+                <span class="text-[10px] font-bold tracking-[0.4em] uppercase text-amber-400">Coastal Odyssey - 4 Days</span>
+            </div>
+            
+            <h1 class="text-7xl md:text-[10rem] font-bold text-white mb-8 tracking-tighter leading-[0.85] italic">
+                Jagannath Puri <br/> <span class="text-amber-50 font-normal not-italic opacity-90">Sea Expedition</span>
+            </h1>
+            
+            <div class="flex flex-wrap justify-center gap-16 mt-16">
+                <div class="text-center">
+                    <span class="text-[9px] text-amber-400/50 uppercase tracking-[0.4em] block mb-3 font-bold">Est. Budget</span>
+                    <span class="text-3xl font-light text-white italic tracking-wide">₹36,000</span>
+                </div>
+                <div class="w-[1px] h-12 bg-white/10 hidden md:block"></div>
+                <div class="text-center">
+                    <span class="text-[9px] text-amber-400/50 uppercase tracking-[0.4em] block mb-3 font-bold">Key Focus</span>
+                    <span class="text-3xl font-light text-white italic tracking-wide">Odisha & Goa</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce opacity-30">
+            <i data-lucide="chevron-down" size="24"></i>
+        </div>
+    </section>
+
+    <!-- 5. MAIN CONTENT AREA -->
+    <main class="max-w-7xl mx-auto px-6 -mt-10 relative z-20">
+        
+        <!-- 5a. ITINERARY SECTION -->
+        <section id="itinerary" class="mb-52 pt-20">
+            <div class="grid lg:grid-cols-12 gap-12 items-start">
+                <div class="lg:col-span-4 space-y-4 lg:sticky lg:top-32">
+                    <div class="mb-12">
+                        <h2 class="text-5xl italic mb-3">The Journey</h2>
+                        <p class="text-slate-500 text-xs font-bold uppercase tracking-[0.2em]">4 Days Across the Coast</p>
+                    </div>
+                    <div id="day-nav-container" class="space-y-3 max-h-[500px] overflow-y-auto custom-scrollbar pr-4"></div>
+                </div>
+
+                <div class="lg:col-span-8">
+                    <div id="itinerary-panel" class="glass-panel p-10 md:p-16 rounded-[3rem] min-h-[620px] flex flex-col justify-between"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5b. DIRECTORY SECTION -->
+        <section id="directory" class="mb-52 pt-10">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+                <div>
+                    <h2 class="text-6xl italic mb-4">Directory</h2>
+                    <p class="text-slate-500 text-sm font-medium tracking-wide">Handpicked stays and culinary landmarks.</p>
+                </div>
+                <div class="h-[1px] hidden md:block flex-grow mx-12 bg-white/5"></div>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-10">
+                <div class="glass-panel p-12 rounded-[3rem]">
+                    <div class="flex items-center gap-4 mb-12 text-amber-400">
+                        <div class="p-3 bg-amber-400/10 rounded-2xl">
+                            <i data-lucide="building" size="22"></i>
+                        </div>
+                        <h3 class="text-xs font-bold uppercase tracking-[0.4em]">Accommodations</h3>
+                    </div>
+                    <div class="space-y-10" id="hotels-container"></div>
+                </div>
+
+                <div class="glass-panel p-12 rounded-[3rem]">
+                    <div class="flex items-center gap-4 mb-12 text-amber-400">
+                        <div class="p-3 bg-amber-400/10 rounded-2xl">
+                            <i data-lucide="utensils-crossed" size="22"></i>
+                        </div>
+                        <h3 class="text-xs font-bold uppercase tracking-[0.4em]">Cuisine & Dining</h3>
+                    </div>
+                    <div class="space-y-10" id="restaurants-container"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5c. LEDGER SECTION -->
+        <section id="ledger" class="mb-52 pt-10">
+            <div class="relative glass-panel rounded-[3.5rem] p-10 md:p-20 overflow-hidden">
+                <div class="absolute -top-24 -right-24 w-96 h-96 bg-amber-400/5 rounded-full blur-[100px]"></div>
+                
+                <div class="relative z-10 grid lg:grid-cols-2 gap-24">
+                    <div>
+                        <h2 class="text-7xl mb-10 italic">The Ledger</h2>
+                        <p class="text-slate-400 font-light leading-relaxed mb-16 text-xl max-w-md">
+                            A transparent breakdown of travel economics across the Eastern and Western coasts.
+                        </p>
+                        <div class="space-y-10" id="categories-container"></div>
+                    </div>
+                    
+                    <div class="space-y-10">
+                        <div class="bg-white/[0.02] rounded-[3rem] p-12 border border-white/5 shadow-inner">
+                            <div class="flex items-center justify-between mb-12">
+                                <div class="flex items-center gap-4">
+                                    <i data-lucide="receipt" size="22" class="text-amber-400"></i>
+                                    <h4 class="text-xs uppercase tracking-[0.4em] font-bold">On-Ground Spending</h4>
+                                </div>
+                                <span class="text-[10px] text-slate-500 font-bold uppercase">48 Entries</span>
+                            </div>
+                            <div class="space-y-8 max-h-[420px] overflow-y-auto pr-6 custom-scrollbar" id="log-entries-container"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 6. FOOTER WITH UPDATED SOCIAL BOXES -->
+    <footer id="contact" class="bg-white/[0.01] border-t border-white/5 pt-32 pb-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start gap-16 mb-24">
+                <div class="max-w-xl">
+                    <h2 class="text-8xl font-bold text-white italic mb-12 tracking-tighter leading-none">Social <br/><span class="text-amber-400 not-italic">Inboxes</span></h2>
+                    <p class="text-slate-400 leading-relaxed text-lg mb-8 md:mb-0">Detailed vlogs, gear lists, and raw footage are available across my primary channels.</p>
+                </div>
+                
+                <!-- Refined Aesthetic Boxes -->
+                <div class="w-full md:w-96 space-y-5">
+                    <!-- Engagement Card -->
+                    <a href="https://www.instagram.com/mr.khilesh__/" target="_blank" class="block inbox-card rounded-3xl p-6 group">
+                        <div class="flex items-center gap-5">
+                            <div class="h-12 w-12 rounded-2xl instagram-gradient flex items-center justify-center shadow-[0_10px_20px_rgba(220,39,67,0.3)] group-hover:scale-110 transition-transform">
+                                <i data-lucide="instagram" class="text-white" size="24"></i>
+                            </div>
+                            <div class="flex-1">
+                                <span class="text-[9px] font-black uppercase tracking-[0.4em] text-slate-500 block mb-1">Engagement</span>
+                                <h4 class="text-white font-bold text-lg group-hover:text-amber-400 transition-colors tracking-tight">@mr.khilesh__</h4>
+                            </div>
+                            <i data-lucide="arrow-up-right" size="20" class="text-slate-700 group-hover:text-white transition-colors"></i>
+                        </div>
+                    </a>
+
+                    <!-- Vlogs Card -->
+                    <a href="https://www.youtube.com/c/KhileshSammalVlogs2125" target="_blank" class="block inbox-card rounded-3xl p-6 group">
+                        <div class="flex items-center gap-5">
+                            <div class="h-12 w-12 rounded-2xl bg-red-600 flex items-center justify-center shadow-[0_10px_20px_rgba(220,38,38,0.3)] group-hover:scale-110 transition-transform">
+                                <i data-lucide="youtube" class="text-white" size="24"></i>
+                            </div>
+                            <div class="flex-1">
+                                <span class="text-[9px] font-black uppercase tracking-[0.4em] text-slate-500 block mb-1">Vlogs</span>
+                                <h4 class="text-white font-bold text-lg group-hover:text-red-500 transition-colors tracking-tight">Khilesh Sammal Vlogs</h4>
+                            </div>
+                            <i data-lucide="arrow-up-right" size="20" class="text-slate-700 group-hover:text-white transition-colors"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+                <span class="text-slate-600 text-xs font-medium">© 2024 Lens & Latitude. All Rights Reserved.</span>
+                <div class="flex gap-8">
+                    <span class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Adventure</span>
+                    <span class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Documentary</span>
+                    <span class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Odisha-Goa</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const itineraryData = [
+            { day: 1, date: "July 19, 2024", city: "Delhi to Puri", theme: "Temple Town Arrival", morning: "Flight from Delhi (DEL) to Bhubaneswar. Priority check-in and transit.", afternoon: "Bus to Puri from Airport. Check-in at Golden Tree Hotel facing Golden Beach.", evening: "Dinner at Surfers Restaurant. Coastal breeze walk and orientation." },
+            { day: 2, date: "July 20, 2024", city: "Jagannath Puri to Goa", theme: "Faith & Flights", morning: "Shree Jagannath Puri temple Darshan. Spiritual immersion and heritage walkthrough.", afternoon: "Bhubaneswar Airport transit. Inter-state flight via Air India Express to the GOA.", evening: "Touchdown in Goa. Bike taxi from airport to Mushrooms Goa Hostel. Late-night hostel culture vibes." },
+            { day: 3, date: "July 21, 2024", city: "Goa Exploration", theme: "Birthday Coastal Ride", morning: "Birthday Morning! Scooty rental. Architectural scouting across Panaji's Latin Quarter.", afternoon: "Celebratory Miramar lunch. Ferry transit to Candolim. Checking into The Hosteller.", evening: "Birthday Sunset at Fort Aguada. Beach scouting from Calangute to Baga. Special Dinner." },
+            { day: 4, date: "July 22, 2024", city: "Goa to Delhi", theme: "The Homebound", morning: "Final city sweep. Cafe hopping in Panaji.", afternoon: "Airport transit via Dabolim (GOI). Flight prep and media backup.", evening: "Departure at 8:00 PM. Arrival in Delhi. Expedition concludes." }
+        ];
+
+        const directoryData = {
+            hotels: [
+                { name: "Golden Tree Hotel", location: "Puri", feature: "Beach-facing Premium" },
+                { name: "Mushrooms Goa", location: "Vagator Area", feature: "Backpacker Haven" },
+                { name: "The Hosteller", location: "Candolim", feature: "Signature Design Stay" }
+            ],
+            restaurants: [
+                { name: "Surfers Restaurant", location: "Puri Beach", cuisine: "Seafood & Continental" },
+                { name: "New Sheetal Pure Veg", location: "Miramar, Panaji", cuisine: "South Indian Special" },
+                { name: "Candolim Beach Shacks", location: "North Goa", cuisine: "Fusion Coastal" }
+            ]
+        };
+
+        const categories = [
+            { category: "Flights", cost: "₹18,000", detail: "Delhi - Odisha - Goa - Delhi", icon: "plane" },
+            { category: "Accommodations", cost: "₹4,600", detail: "Boutique Stays & Hostels", icon: "map-pin" },
+            { category: "Local Logistics", cost: "₹2,000", detail: "Ferry, Scooty & Bike Taxis", icon: "bike" },
+            { category: "Food & Entry", cost: "₹3,500", detail: "Temple, Parks & Dining", icon: "utensils" },
+        ];
+
+        const logEntries = [
+            { item: "Roundtrip Airfare Bundle", cost: "₹18,000", sub: "Multi-city bookings" },
+            { item: "Golden Tree Hotel", cost: "₹3,500", sub: "Odisha Premium Wing" },
+            { item: "Scooty Rental & Fuel", cost: "₹1,100", sub: "2 Days North Goa" },
+            { item: "Misc. Shopping & Gifts", cost: "₹2,500", sub: "Puri Handicrafts" },
+            { item: "Culinary Expenditure", cost: "₹2,500", sub: "Estimated daily average" },
+        ];
+
+        let activeDayIdx = 0;
+
+        function renderDayContent(idx) {
+            const day = itineraryData[idx];
+            const container = document.getElementById('itinerary-panel');
+            container.style.opacity = '0';
+            container.style.transform = 'translateY(10px)';
+            
+            setTimeout(() => {
+                container.innerHTML = `
+                    <div>
+                      <div class="flex flex-col md:flex-row justify-between items-start mb-16 pb-10 border-b border-white/5 gap-6">
+                        <div>
+                          <h3 class="text-6xl md:text-7xl mb-4 italic leading-tight text-white">${day.theme}</h3>
+                          <div class="flex items-center gap-4 text-amber-400 text-[10px] font-bold uppercase tracking-[0.3em]">
+                            <i data-lucide="calendar" size="16"></i>
+                            ${day.date}
+                          </div>
+                        </div>
+                        <div class="h-16 w-16 rounded-3xl bg-amber-400 text-black flex items-center justify-center text-2xl font-bold italic shadow-[0_10px_30px_rgba(251,191,36,0.2)]">
+                          ${day.day}
+                        </div>
+                      </div>
+                      <div class="grid gap-12">
+                        <div class="flex gap-8 items-start group">
+                            <div class="mt-1 p-3 rounded-2xl bg-white/5 border border-white/10 text-amber-400 group-hover:bg-amber-400 group-hover:text-black transition-all duration-500">
+                                <i data-lucide="sun" size="20"></i>
+                            </div>
+                            <div class="space-y-3">
+                                <span class="text-[9px] font-bold uppercase tracking-[0.4em] text-slate-500 group-hover:text-amber-400 transition-colors">Morning Session</span>
+                                <p class="text-[#cbd5e1] text-lg leading-relaxed font-light max-w-2xl">${day.morning}</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-8 items-start group">
+                            <div class="mt-1 p-3 rounded-2xl bg-white/5 border border-white/10 text-amber-400 group-hover:bg-amber-400 group-hover:text-black transition-all duration-500">
+                                <i data-lucide="coffee" size="20"></i>
+                            </div>
+                            <div class="space-y-3">
+                                <span class="text-[9px] font-bold uppercase tracking-[0.4em] text-slate-500 group-hover:text-amber-400 transition-colors">Midday Transit</span>
+                                <p class="text-[#cbd5e1] text-lg leading-relaxed font-light max-w-2xl">${day.afternoon}</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-8 items-start group">
+                            <div class="mt-1 p-3 rounded-2xl bg-white/5 border border-white/10 text-amber-400 group-hover:bg-amber-400 group-hover:text-black transition-all duration-500">
+                                <i data-lucide="moon" size="20"></i>
+                            </div>
+                            <div class="space-y-3">
+                                <span class="text-[9px] font-bold uppercase tracking-[0.4em] text-slate-500 group-hover:text-amber-400 transition-colors">Evening Debrief</span>
+                                <p class="text-[#cbd5e1] text-lg leading-relaxed font-light max-w-2xl">${day.evening}</p>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mt-20 pt-10 border-t border-white/5 flex items-center justify-between">
+                        <div class="flex items-center gap-4 text-slate-400 text-[10px] font-bold tracking-[0.3em] uppercase">
+                          <i data-lucide="map-pin" size="18" class="text-amber-400"></i>
+                          ${day.city}
+                        </div>
+                        <div class="flex gap-2">
+                            <div class="h-1.5 w-8 rounded-full bg-amber-400"></div>
+                            <div class="h-1.5 w-1.5 rounded-full bg-white/10"></div>
+                        </div>
+                    </div>
+                `;
+                container.style.opacity = '1';
+                container.style.transform = 'translateY(0)';
+                lucide.createIcons();
+            }, 200);
+        }
+
+        function setupNav() {
+            const container = document.getElementById('day-nav-container');
+            container.innerHTML = '';
+            itineraryData.forEach((item, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `day-button w-full text-left p-6 rounded-[2rem] border bg-white/5 border-white/10 text-slate-400 hover:bg-white/10 ${idx === activeDayIdx ? 'active' : ''}`;
+                btn.innerHTML = `
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <span class="day-label text-[9px] font-bold uppercase tracking-[0.3em] block mb-2 text-amber-400/60">Day 0${item.day}</span>
+                        <span class="font-bold text-lg block tracking-tight">${item.city}</span>
+                      </div>
+                      <i data-lucide="${idx === activeDayIdx ? 'arrow-right' : 'calendar'}" size="${idx === activeDayIdx ? 20 : 16}" class="${idx === activeDayIdx ? 'opacity-100' : 'opacity-20'}"></i>
+                    </div>
+                `;
+                btn.onclick = () => {
+                    if(activeDayIdx === idx) return;
+                    document.querySelectorAll('.day-button').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    activeDayIdx = idx;
+                    renderDayContent(idx);
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        function populateStaticSections() {
+            const hotelsContainer = document.getElementById('hotels-container');
+            directoryData.hotels.forEach(h => {
+                hotelsContainer.innerHTML += `
+                    <div class="group cursor-default">
+                      <h4 class="text-2xl font-bold text-white group-hover:text-amber-400 transition-colors mb-2">${h.name}</h4>
+                      <div class="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
+                        <span class="text-slate-500">${h.location}</span>
+                        <span class="text-amber-400/40 italic">${h.feature}</span>
+                      </div>
+                    </div>
+                `;
+            });
+
+            const restaurantsContainer = document.getElementById('restaurants-container');
+            directoryData.restaurants.forEach(r => {
+                restaurantsContainer.innerHTML += `
+                    <div class="group cursor-default">
+                      <h4 class="text-2xl font-bold text-white group-hover:text-amber-400 transition-colors mb-2">${r.name}</h4>
+                      <div class="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
+                        <span class="text-slate-500">${r.location}</span>
+                        <span class="text-amber-400/40 italic">${r.cuisine}</span>
+                      </div>
+                    </div>
+                `;
+            });
+
+            const catsContainer = document.getElementById('categories-container');
+            categories.forEach(c => {
+                catsContainer.innerHTML += `
+                    <div class="group pb-4">
+                        <div class="flex justify-between items-end mb-4">
+                          <div class="flex items-center gap-6">
+                             <div class="p-3 rounded-2xl bg-white/5 text-amber-400 shadow-xl border border-white/5"><i data-lucide="${c.icon}" size="20"></i></div>
+                             <div>
+                                <span class="text-slate-500 uppercase tracking-[0.3em] text-[9px] font-bold block mb-1">Expense Type</span>
+                                <span class="text-white font-bold tracking-wide">${c.category}</span>
+                             </div>
+                          </div>
+                          <span class="text-2xl font-light text-amber-200 italic">${c.cost}</span>
+                        </div>
+                        <p class="text-[11px] text-slate-500 ml-[76px] font-medium italic">${c.detail}</p>
+                    </div>
+                `;
+            });
+
+            const logContainer = document.getElementById('log-entries-container');
+            logEntries.forEach(l => {
+                logContainer.innerHTML += `
+                    <div class="group border-b border-white/[0.03] pb-6 last:border-0">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-slate-200 font-bold group-hover:text-amber-400 transition-colors text-base">${l.item}</span>
+                            <span class="text-amber-100/90 font-mono text-xs bg-white/5 px-3 py-1 rounded-full border border-white/5">${l.cost}</span>
+                        </div>
+                        <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest leading-relaxed">${l.sub}</p>
+                    </div>
+                `;
+            });
+        }
+
+        window.onload = () => {
+            setupNav();
+            renderDayContent(0);
+            populateStaticSections();
+            lucide.createIcons();
+            
+            const observerOptions = { threshold: 0.1 };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('reveal');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('section').forEach(sec => observer.observe(sec));
+        };
+    </script>
+</body>
+</html>
